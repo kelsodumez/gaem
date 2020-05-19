@@ -1,8 +1,18 @@
+:root {
+  --c1: #2E3532;
+  --c2: #b8F3FF;
+}
+
 body {
-  background-color: (purple);
+  background-color: var(--c1);
 }
 
 header {
-  color: (#b8F3FF);
-  background-color: (purple);
+  color: var(--c2);
+  background-color: ();
+}
+
+h1 {
+  background-color: var(--c1);
+  color: var(--c2);
 }
