@@ -1,9 +1,33 @@
 <html>
     <body>
         <head>
+        <!-- Links to the style.css -->
         <link rel="stylesheet" href="/static/style.css">
+        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         </head>
         <title>gaem</title>
         <h1>GAEM</h1>
+
+        <!-- The  html code for the navbar -->
+        <div class="navbar" id ="topnav">
+            <a href="" class="active">Home</a>
+            <a href="index" class="active">Index</a>
+            <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <!-- Javascript for the navbar -->
+        <script>
+            function jvsNavbar() {
+                var x = document.getElementById("topnav")
+                if(x.className === "navbar") {
+                    x.className += " responsive";
+                } else {
+                    x.className = "navbar" 
+                }
+            }
+        </script>
     </body>
 </html>
+

@@ -1,18 +1,58 @@
+/* root for being able to store and easily change colours and such */
 :root {
   --c1: #2E3532;
   --c2: #b8F3FF;
+  --c3: #0a0908;
+  --c4: #f2f4f3;
 }
 
+/* css for body div */
 body {
   background-color: var(--c1);
 }
 
+/* css for header div */
 header {
   color: var(--c2);
   background-color: ();
 }
 
+/* css for h1 div */
 h1 {
   background-color: var(--c1);
   color: var(--c2);
+}
+
+/* background colour for navbar */
+.navbar {
+  background-color: var(--c3);
+  overflow: hidden;
+}
+
+/* style for links inside navbar */
+.navbar a {
+  float: left;
+  display: block;
+  color: var(--c4);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* change colours of links when hovering */
+.navbar a:hover {
+  background-color: var(--c2);
+  color: var(--c3);
+}
+
+/* sets colour of link the user is on to be different */
+.topnav a.active {
+  background-color: var(red );
+  color: var(red)  
+}
+
+/* hides link used for mobile users to expand navbar */
+.topnav .icon {
+  display: none;
 }
