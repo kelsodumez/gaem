@@ -5,38 +5,128 @@ from sqlalchemy import DateTime, Column, Integer
 import datetime
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
-database_file = "sqlite:///{}".format(os.path.join(project_dir, "gaem.db")) # links to the database
+# links to the database
+database_file = "sqlite:///{}".format(os.path.join(project_dir, "gaem.db"))
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-'''
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    gameid = db.Column(db.ForeignKey('games.ID'))
+    userid = db.Column(db.ForeignKey('userinfo.ID'))
+    comment = db.Column(db.Text)
+
+    game = db.relationship(
+        'Game', primaryjoin='Comment.gameid == Game.ID', backref='comments')
+    userinfo = db.relationship(
+        'Userinfo', primaryjoin='Comment.userid == Userinfo.ID', backref='comments')
+
+
+class Developer(db.Model):
+    __tablename__ = 'developers'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    developername = db.Column(db.Text)
+
+
+class Gamegenre(db.Model):
+    __tablename__ = 'gamegenre'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    gameid = db.Column(db.ForeignKey('games.ID'))
+    genreid = db.Column(db.Integer)
+
+    game = db.relationship(
+        'Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
+
+
+class Genre(Gamegenre):
+    __tablename__ = 'genres'
+
+    ID = db.Column(db.ForeignKey('gamegenre.ID'), primary_key=True)
+    genrename = db.Column(db.Text)
+    description = db.Column(db.Text)
+
+
 class Game(db.Model):
-    gameid = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
-    name = db.Column(db.Text(80), unique=True, nullable=False, primary_key=False)
-    dateadded = db.Column(db.DateTime, unique=False, nullable=False, primary_key=False)
-    #useradded = db.Column(db.Text(80), unique=False, nullable=False, primary_key=False)
-    description = db.Column(db.Text(80), unique=True, nullable=False, primary_key=False)
-    datepublished = db.Column(db.DateTime, unique=False, nullable=False, primary_key=False)
-    #publisher = db.Column(db.integer(80), unique=False, nullable=False, primary_key=False)
-    #developer = db.Column(db.integer(80), unique=False, nullable=False, primary_key=False)
-'''
-@app.route('/')# home page
+    __tablename__ = 'games'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, unique=True)
+    dateadded = db.Column(db.Date)
+    useradded = db.Column(db.ForeignKey('userinfo.ID'))
+    description = db.Column(db.Text, unique=True)
+    datepublished = db.Column(db.Date)
+    publisher = db.Column(db.ForeignKey('publishers.ID'))
+    developer = db.Column(db.ForeignKey('developers.ID'))
+
+    developer1 = db.relationship(
+        'Developer', primaryjoin='Game.developer == Developer.ID', backref='games')
+    publisher1 = db.relationship(
+        'Publisher', primaryjoin='Game.publisher == Publisher.ID', backref='games')
+    userinfo = db.relationship(
+        'Userinfo', primaryjoin='Game.useradded == Userinfo.ID', backref='games')
+
+
+class Publisher(db.Model):
+    __tablename__ = 'publishers'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    publishername = db.Column(db.Text)
+
+
+class Rating(db.Model):
+    __tablename__ = 'ratings'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    gameid = db.Column(db.ForeignKey('games.ID'))
+    userid = db.Column(db.ForeignKey('userinfo.ID'))
+    rating = db.Column(db.Integer)
+
+    game = db.relationship(
+        'Game', primaryjoin='Rating.gameid == Game.ID', backref='ratings')
+    userinfo = db.relationship(
+        'Userinfo', primaryjoin='Rating.userid == Userinfo.ID', backref='ratings')
+
+
+t_sqlite_sequence = db.Table(
+    'sqlite_sequence',
+    db.Column('name', db.NullType),
+    db.Column('seq', db.NullType)
+)
+
+
+class Userinfo(db.Model):
+    __tablename__ = 'userinfo'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text)
+    password = db.Column(db.Text)
+    isadmin = db.Column(db.Boolean)
+
+
+@app.route('/')  # home page
 def home():
     return render_template('home.html')
 
-@app.route('/index')# index for games
+
+@app.route('/index')  # index for games
 def index():
     #game = Game.query.all()
-    games = session.query().all()
+    games = Game.query.all()
     for game in games:
         game_object = {'name': game.name,
-                        'dateadded': game.dateadded,
-                        'desciption': game.desciption,
-                        'datepublished': game.datepublished}
+                       'dateadded': game.dateadded,
+                       'desciption': game.desciption,
+                       'datepublished': game.datepublished}
         print(game_object)
-    return render_template('home.html')
+    return render_template('home.html', games=game())
 
 
 if __name__ == "__main__":

@@ -1,0 +1,3 @@
+git config user.name "kelsodumez"
+
+git config user.email "techniclogical@gmail.com"
