@@ -5,14 +5,13 @@ from sqlalchemy import DateTime, Column, Integer
 import datetime
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
-# links to the database
+ # links to the database
 database_file = "sqlite:///{}".format(os.path.join(project_dir, "gaem.db"))
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -23,17 +22,15 @@ class Comment(db.Model):
     comment = db.Column(db.Text)
 
     game = db.relationship(
-        'Game', primaryjoin='Comment.gameid == Game.ID', backref='comments')
+        'Game', primaryjoin='Comment.gameid == game.ID', backref='comments')
     userinfo = db.relationship(
-        'Userinfo', primaryjoin='Comment.userid == Userinfo.ID', backref='comments')
-
+        'Userinfo', primaryjoin='Comment.userid == userinfo.ID', backref='comments')
 
 class Developer(db.Model):
     __tablename__ = 'developers'
 
     ID = db.Column(db.Integer, primary_key=True)
     developername = db.Column(db.Text)
-
 
 class Gamegenre(db.Model):
     __tablename__ = 'gamegenre'
@@ -45,7 +42,6 @@ class Gamegenre(db.Model):
     game = db.relationship(
         'Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
 
-
 class Genre(Gamegenre):
     __tablename__ = 'genres'
 
@@ -53,10 +49,8 @@ class Genre(Gamegenre):
     genrename = db.Column(db.Text)
     description = db.Column(db.Text)
 
-
-class Game(db.Model):
-    __tablename__ = 'games'
-
+class Games(db.Model):
+    __main__ = 'games'
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
     dateadded = db.Column(db.Date)
@@ -73,13 +67,11 @@ class Game(db.Model):
     userinfo = db.relationship(
         'Userinfo', primaryjoin='Game.useradded == Userinfo.ID', backref='games')
 
-
 class Publisher(db.Model):
     __tablename__ = 'publishers'
 
     ID = db.Column(db.Integer, primary_key=True)
     publishername = db.Column(db.Text)
-
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
@@ -94,13 +86,13 @@ class Rating(db.Model):
     userinfo = db.relationship(
         'Userinfo', primaryjoin='Rating.userid == Userinfo.ID', backref='ratings')
 
-
+'''
 t_sqlite_sequence = db.Table(
     'sqlite_sequence',
     db.Column('name', db.NullType),
     db.Column('seq', db.NullType)
 )
-
+'''
 
 class Userinfo(db.Model):
     __tablename__ = 'userinfo'
@@ -118,16 +110,9 @@ def home():
 
 @app.route('/index')  # index for games
 def index():
-    #game = Game.query.all()
-    games = Game.query.all()
-    for game in games:
-        game_object = {'name': game.name,
-                       'dateadded': game.dateadded,
-                       'desciption': game.desciption,
-                       'datepublished': game.datepublished}
-        print(game_object)
-    return render_template('home.html', games=game())
-
+    game=None
+    game = Games.query.all()
+    return render_template('index.html', game=game())
 
 if __name__ == "__main__":
     app.run(debug=True)

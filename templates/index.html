@@ -28,5 +28,12 @@
                 }
             }
         </script>
+
+        <h1>Game Index</h1>
+        <div>
+            {% for game in game %}
+                <p class="row"> {{game.name}}></p>
+            {% endfor %}
+        </div>
     </body>
 </html>
