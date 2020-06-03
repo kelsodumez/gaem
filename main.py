@@ -21,16 +21,18 @@ class Comment(db.Model):
     userid = db.Column(db.ForeignKey('userinfo.ID'))
     comment = db.Column(db.Text)
 
-    game = db.relationship(
-        'Game', primaryjoin='Comment.gameid == game.ID', backref='comments')
-    userinfo = db.relationship(
-        'Userinfo', primaryjoin='Comment.userid == userinfo.ID', backref='comments')
+    game = db.relationship('Game', primaryjoin='Comment.gameid == Game.ID', backref='comments')
+    userinfo = db.relationship('Userinfo', primaryjoin='Comment.userid == Userinfo.ID', backref='comments')
+
+
 
 class Developer(db.Model):
     __tablename__ = 'developers'
 
     ID = db.Column(db.Integer, primary_key=True)
     developername = db.Column(db.Text)
+
+
 
 class Gamegenre(db.Model):
     __tablename__ = 'gamegenre'
@@ -39,8 +41,8 @@ class Gamegenre(db.Model):
     gameid = db.Column(db.ForeignKey('games.ID'))
     genreid = db.Column(db.Integer)
 
-    game = db.relationship(
-        'Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
+    game = db.relationship('Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
+
 
 class Genre(Gamegenre):
     __tablename__ = 'genres'
@@ -49,8 +51,11 @@ class Genre(Gamegenre):
     genrename = db.Column(db.Text)
     description = db.Column(db.Text)
 
-class Games(db.Model):
-    __main__ = 'games'
+
+
+class Game(db.Model):
+    __tablename__ = 'games'
+
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
     dateadded = db.Column(db.Date)
@@ -60,18 +65,19 @@ class Games(db.Model):
     publisher = db.Column(db.ForeignKey('publishers.ID'))
     developer = db.Column(db.ForeignKey('developers.ID'))
 
-    developer1 = db.relationship(
-        'Developer', primaryjoin='Game.developer == Developer.ID', backref='games')
-    publisher1 = db.relationship(
-        'Publisher', primaryjoin='Game.publisher == Publisher.ID', backref='games')
-    userinfo = db.relationship(
-        'Userinfo', primaryjoin='Game.useradded == Userinfo.ID', backref='games')
+    developer1 = db.relationship('Developer', primaryjoin='Game.developer == Developer.ID', backref='games')
+    publisher1 = db.relationship('Publisher', primaryjoin='Game.publisher == Publisher.ID', backref='games')
+    userinfo = db.relationship('Userinfo', primaryjoin='Game.useradded == Userinfo.ID', backref='games')
+
+
 
 class Publisher(db.Model):
     __tablename__ = 'publishers'
 
     ID = db.Column(db.Integer, primary_key=True)
     publishername = db.Column(db.Text)
+
+
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
@@ -81,18 +87,10 @@ class Rating(db.Model):
     userid = db.Column(db.ForeignKey('userinfo.ID'))
     rating = db.Column(db.Integer)
 
-    game = db.relationship(
-        'Game', primaryjoin='Rating.gameid == Game.ID', backref='ratings')
-    userinfo = db.relationship(
-        'Userinfo', primaryjoin='Rating.userid == Userinfo.ID', backref='ratings')
+    game = db.relationship('Game', primaryjoin='Rating.gameid == Game.ID', backref='ratings')
+    userinfo = db.relationship('Userinfo', primaryjoin='Rating.userid == Userinfo.ID', backref='ratings')
 
-'''
-t_sqlite_sequence = db.Table(
-    'sqlite_sequence',
-    db.Column('name', db.NullType),
-    db.Column('seq', db.NullType)
-)
-'''
+
 
 class Userinfo(db.Model):
     __tablename__ = 'userinfo'
@@ -111,8 +109,8 @@ def home():
 @app.route('/index')  # index for games
 def index():
     game=None
-    game = Games.query.all()
-    return render_template('index.html', game=game())
+    game=Game.query.all()
+    return render_template('index.html', game=game)
 
 if __name__ == "__main__":
     app.run(debug=True)
