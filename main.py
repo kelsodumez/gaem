@@ -59,15 +59,15 @@ class Game(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
     dateadded = db.Column(db.Date)
-    useradded = db.Column(db.ForeignKey('userinfo.ID'))
+    useradded = db.Column(db.ForeignKey('userinfo.username'))
     description = db.Column(db.Text, unique=True)
     datepublished = db.Column(db.Date)
-    publisher = db.Column(db.ForeignKey('publishers.ID'))
-    developer = db.Column(db.ForeignKey('developers.ID'))
+    publisher = db.Column(db.ForeignKey('publishers.publishername'))
+    developer = db.Column(db.ForeignKey('developers.developername'))
 
-    developer1 = db.relationship('Developer', primaryjoin='Game.developer == Developer.ID', backref='games')
-    publisher1 = db.relationship('Publisher', primaryjoin='Game.publisher == Publisher.ID', backref='games')
-    userinfo = db.relationship('Userinfo', primaryjoin='Game.useradded == Userinfo.ID', backref='games')
+    developer1 = db.relationship('Developer', primaryjoin='Game.developer == Developer.developername', backref='games')
+    publisher1 = db.relationship('Publisher', primaryjoin='Game.publisher == Publisher.publishername', backref='games')
+    userinfo = db.relationship('Userinfo', primaryjoin='Game.useradded == Userinfo.username', backref='games')
 
 
 

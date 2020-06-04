@@ -1,18 +1,17 @@
 <html>
-    <body>
-        <head>
+    <head>
+        <title>gaem</title>
         <!-- Links to the style.css -->
         <link rel="stylesheet" href="/static/style.css">
         <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        </head>
-        <title>gaem</title>
+    </head>    
+    <body>
         <h1>GAEM</h1>
-
         <!-- The  html code for the navbar -->
         <div class="navbar" id ="topnav">
-            <a href="" class="active">Home</a>
-            <a href="index" class="active">Index</a>
+            <a href="/" class="active">Home</a>
+            <a href="/index" class="active">Index</a>
             <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
                 <i class="fa fa-bars"></i>
             </a>
@@ -30,16 +29,29 @@
         </script>
 
         <h1>Game Index</h1>
-        <td>
-            {% for game in game %}
-                {{game.name}}
-                {{game.dateadded}}
-                {{game.useradded}}
-                {{game.description}}
-                {{game.datepublished}}
-                {{game.publisher}}
-                {{game.developer}}
-            {% endfor %}
-        </td>
+        <table style="width:100%">
+            <tr>
+                <th>Name</th>
+                <th>Date Added</th>
+                <th>User Added</th>
+                <th>Description</th>
+                <th>Date Published</th>
+                <th>Publisher</th>
+                <th>Developer</th>
+            </tr>
+            <tr>
+                <td>
+                    {% for game in game %}
+                        {{game.name}}
+                        {{game.dateadded}}
+                        {{game.useradded}}
+                        {{game.description}}
+                        {{game.datepublished}}
+                        {{game.publisher}}
+                        {{game.developer}}
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

@@ -23,6 +23,25 @@ h1 {
   color: var(--c2);
 }
 
+table, td {
+  border: 0px solid black;
+  border-collapse: collapse;
+  background-color: var(--c4)
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: var(--c2);
+}
+
+tr:nth-child(even) {
+  background-color: var(--c1);
+}
+
 /* background colour for navbar */
 .navbar {
   background-color: var(--c3);
