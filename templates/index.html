@@ -10,7 +10,7 @@
         <h1>GAEM</h1>
         <!-- The  html code for the navbar -->
         <div class="navbar" id ="navbar">
-            <a href="/" class="active">Home</a>
+            <a href="/" class="">Home</a>
             <a href="/index" class="active">Index</a>
             <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
                 <i class="fa fa-bars"></i>
@@ -29,7 +29,9 @@
         </script>
 
         <h1>Game Index</h1>
+        <!-- The table for the database-->
         <table style="width:100%">
+            <!-- Headers for the table -->
             <tr>
                 <th>Name</th>
                 <th>Date Added</th>
@@ -39,26 +41,27 @@
                 <th>Publisher</th>
                 <th>Developer</th>
             </tr>
+            <!-- Here the data pulled from the database is displayed with html -->
             {% for game in game %}
                 <tr>
-                    <td>{{game.name}}</td>
+                    <td><a href="/game/{{ game.ID }}">{{ game.name }}</a></td>
                     <td>
-                    {{game.dateadded}}
+                    {{ game.dateadded }}
                     </td>
                     <td>
-                    {{game.useradded}}
+                    {{ game.useradded }}
                     </td>
                     <td>
-                    {{game.description}}
+                    {{ game.description }}
                     </td>
                     <td>
-                    {{game.datepublished}}
+                    {{ game.datepublished }}
                     </td>
                     <td>
-                    {{game.publisher}}
+                    {{ game.publisher }}
                     </td>
                     <td>
-                    {{game.developer}}
+                    {{ game.developer }}
                     </td>
                 </tr>
             {% endfor %}
