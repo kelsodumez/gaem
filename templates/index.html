@@ -36,10 +36,6 @@
                 <th>Name</th>
                 <th>Date Added</th>
                 <th>User Added</th>
-                <th>Description</th>
-                <th>Date Published</th>
-                <th>Publisher</th>
-                <th>Developer</th>
             </tr>
             <!-- Here the data pulled from the database is displayed with html -->
             {% for game in game %}
@@ -50,18 +46,6 @@
                     </td>
                     <td>
                     {{ game.useradded }}
-                    </td>
-                    <td>
-                    {{ game.description }}
-                    </td>
-                    <td>
-                    {{ game.datepublished }}
-                    </td>
-                    <td>
-                    {{ game.publisher }}
-                    </td>
-                    <td>
-                    {{ game.developer }}
                     </td>
                 </tr>
             {% endfor %}

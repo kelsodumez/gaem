@@ -8,6 +8,7 @@ project_dir = os.path.dirname(os.path.abspath(__file__))
  # links to the database
 database_file = "sqlite:///{}".format(os.path.join(project_dir, "gaem.db"))
 app = Flask(__name__)
+app.secret_key = ("29fc9d808e2fa590040dc20e43d41c7346324bf9fe184273")
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -77,12 +78,39 @@ class Userinfo(db.Model):
     username = db.Column(db.Text)
     password = db.Column(db.Text)
     isadmin = db.Column(db.Boolean)
+
 '''
 Below is all the routes for each webpage
 '''
+
 @app.route('/')  # home page
 def home():
-    return render_template('home.html')
+    if 'username' in session:
+        username = session['username']
+        return 'Logged in as' + username + '<br>' + "<b><a href = '/logout'>click here to log out</a></b>"
+    return "you are not logged in <br><a href = '/login'>" + "click here to log in</a>"
+    #return render_template('home.html')
+
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['username'] =request.form['username']
+        return redirect(url_for('index'))
+    return '''
+
+    <form action = "" method = "post">
+        <p><input type = text name = username/></p>
+        <p><input type = submit value = Login></p>
+    </form>
+'''
+
+@app.route('/logout')
+def logout():
+    # remove  the username from the session if there is one
+    session.pop('username', None)
+    return redirect(url_for('home'))
+        
 
 @app.route('/index')  # index for games
 def index():
@@ -94,8 +122,9 @@ def index():
 def videogame(id):
     print(id)
     game=None
-    game=Game.query.all()
+    game=Game.query.filter(Game.ID==(id))
     return render_template('game.html', game=game)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
