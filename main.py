@@ -85,33 +85,13 @@ Below is all the routes for each webpage
 
 @app.route('/')  # home page
 def home():
-    if 'username' in session:
-        username = session['username']
-        return 'Logged in as' + username + '<br>' + "<b><a href = '/logout'>click here to log out</a></b>"
-    return "you are not logged in <br><a href = '/login'>" + "click here to log in</a>"
-    #return render_template('home.html')
+    return render_template('home.html')
 
-
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login')
 def login():
-    if request.method == 'POST':
-        session['username'] =request.form['username']
-        return redirect(url_for('index'))
-    return '''
-
-    <form action = "" method = "post">
-        <p><input type = text name = username/></p>
-        <p><input type = submit value = Login></p>
-    </form>
-'''
-
-@app.route('/logout')
-def logout():
-    # remove  the username from the session if there is one
-    session.pop('username', None)
-    return redirect(url_for('home'))
+    #if request.method == 'POST':
+    return render_template('login.html')
         
-
 @app.route('/index')  # index for games
 def index():
     game=None
