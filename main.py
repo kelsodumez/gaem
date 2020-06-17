@@ -90,6 +90,29 @@ def home():
 
 @app.route('/login', methods=["GET","POST"])
 def login():
+    if request.method == ["POST"]:
+        req = request.form
+        username = request.get("username")
+        user_info=None
+        user_info=Userinfo.query.filter(Userinfo.username==(username))
+        password = request.get("password")
+        check_password = check_password_hash(hash_password, password)
+
+        if not username in Userinfo:
+            print("Username not found")
+            return redirect(request.url)
+        else:
+            user = users[username]
+
+        if not password == Userinfo.password:
+            print("Incorrect Password")
+            return redirect(request.url)
+
+@app.route('/logout')
+def logout():
+    session.pop("USERNAME", None)
+    return redirect(url_for("/login"))
+
     return render_template('login.html')
 
 @app.route('/create', methods=["GET","POST"])
@@ -98,7 +121,7 @@ def create():
             user_info = Userinfo (
                 username = request.form.get('username'),
                 password = generate_password_hash(request.form.get('password'), salt_length=10),   
-                isadmin = (0)
+                isadmin = 0
             )
             # check_password = check_password_hash(hash_password, password)
             # print(hash_password)
