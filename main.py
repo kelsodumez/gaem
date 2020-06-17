@@ -3,6 +3,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Column, Integer
 import datetime
+from werkzeug import generate_password_hash, check_password_hash
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
  # links to the database
@@ -87,11 +88,26 @@ Below is all the routes for each webpage
 def home():
     return render_template('home.html')
 
-@app.route('/login')
+@app.route('/login', methods=["GET","POST"])
 def login():
-    #if request.method == 'POST':
     return render_template('login.html')
-        
+
+@app.route('/create', methods=["GET","POST"])
+def create():
+    if request.method == "POST":
+            user_info = Userinfo (
+                username = request.form.get('username'),
+                password = generate_password_hash(request.form.get('password'), salt_length=10),   
+                isadmin = (0)
+            )
+            # check_password = check_password_hash(hash_password, password)
+            # print(hash_password)
+            # print(check_password)
+            # session['admin'] = 'yes'
+            db.session.add(user_info)
+            db.session.commit()
+    return render_template('create.html')
+
 @app.route('/index')  # index for games
 def index():
     game=None
