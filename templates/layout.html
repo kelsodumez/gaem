@@ -1,0 +1,58 @@
+{% macro nav_item(text, url, extra_class) %}
+<a href="{{ url }}" class="{{ extra_class }} {% if request.path == url %}active{% endif %}">{{ text }}</a>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gaem</title>
+    {% block head %}
+
+    {% endblock head %}
+    <!-- Links to the style.css -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <h1>GAEM</h1>
+
+    <!-- The  html code for the navbar -->
+    <div class="navbar" id="topnav">
+        {{ nav_item('Home', '/') }}
+        {{ nav_item('Index', '/index') }}
+        {{ nav_item('Create an Account', '/create') }}
+        {{ nav_item('Login', '/login')}}
+        {{ nav_item('Logout', '/logout')}}
+        <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <div class="content">
+        {% block body %}
+        {% endblock body %}
+    </div>
+
+    <!-- Javascript for the navbar -->
+    <script>
+        function jvsNavbar() {
+            var x = document.getElementById("topnav")
+            if (x.className === "navbar") {
+                x.className += " responsive";
+            } else {
+                x.className = "navbar"
+            }
+        }
+    </script>
+    {% block scripts %}
+        
+    {% endblock scripts %}
+</body>
+
+</html>

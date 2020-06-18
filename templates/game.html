@@ -1,34 +1,7 @@
-<html>
-    <head>
-        <title>gaem</title>
-        <!-- Links to the style.css -->
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>    
-    <body>
-        <h1>GAEM</h1>
-        <!-- The  html code for the navbar -->
-        <div class="navbar" id ="navbar">
-            <a href="/" class="">Home</a>
-            <a href="/index" class="">Index</a>
-            <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
-                <i class="fa fa-bars"></i>
-            </a>
-        </div>
-        <!-- Javascript for the navbar -->
-        <script>
-            function jvsNavbar() {
-                var x = document.getElementById("navbar")
-                if(x.className === "navbar") {
-                    x.className += "responsive";
-                } else {
-                    x.className = "navbar" 
-                }
-            }
-        </script>
-       <!-- The table for the database-->
-       <table style="width:100%">
+{% extends 'layout.html' %}
+
+{% block body %}
+<table style="width:100%">
         <!-- Headers for the table -->
         <tr>
             <th>Name</th>
@@ -64,5 +37,4 @@
             </tr>
         {% endfor %}
     </table>
-    </body>
-</html>
+{% endblock body %}

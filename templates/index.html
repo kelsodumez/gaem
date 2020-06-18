@@ -1,55 +1,26 @@
-<html>
-    <head>
-        <title>gaem</title>
-        <!-- Links to the style.css -->
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>    
-    <body>
-        <h1>GAEM</h1>
-        <!-- The  html code for the navbar -->
-        <div class="navbar" id ="navbar">
-            <a href="/" class="">Home</a>
-            <a href="/index" class="active">Index</a>
-            <a href="/create" class="">Create an Account</a>
-            <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
-                <i class="fa fa-bars"></i>
-            </a>
-        </div>
-        <!-- Javascript for the navbar -->
-        <script>
-            function jvsNavbar() {
-                var x = document.getElementById("navbar")
-                if(x.className === "navbar") {
-                    x.className += "responsive";
-                } else {
-                    x.className = "navbar" 
-                }
-            }
-        </script>
+    {% extends 'layout.html' %}
 
-        <h1>Game Index</h1>
-        <!-- The table for the database-->
-        <table style="width:100%">
-            <!-- Headers for the table -->
-            <tr>
-                <th>Name</th>
-                <th>Date Added</th>
-                <th>User Added</th>
-            </tr>
-            <!-- Here the data pulled from the database is displayed with html -->
-            {% for game in game %}
-                <tr>
-                    <td><a href="/game/{{ game.ID }}">{{ game.name }}</a></td>
-                    <td>
-                    {{ game.dateadded }}
-                    </td>
-                    <td>
-                    {{ game.useradded }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
+{% block body %}
+<h1>Game Index</h1>
+<!-- The table for the database-->
+<table style="width:100%">
+    <!-- Headers for the table -->
+    <tr>
+        <th>Name</th>
+        <th>Date Added</th>
+        <th>User Added</th>
+    </tr>
+    <!-- Here the data pulled from the database is displayed with html -->
+    {% for game in game %}
+    <tr>
+        <td><a href="/game/{{ game.ID }}">{{ game.name }}</a></td>
+        <td>
+            {{ game.dateadded }}
+        </td>
+        <td>
+            {{ game.useradded }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock body %}

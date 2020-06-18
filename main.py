@@ -1,4 +1,5 @@
-from flask import Flask, render_template, session, redirect, url_for, request, Blueprint
+from flask import Flask, render_template, session, redirect, url_for, request, Blueprint, flash
+from random import randint
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Column, Integer
@@ -34,7 +35,7 @@ class Developer(db.Model):
 class Gamegenre(db.Model):
     __tablename__ = 'gamegenre'
     ID = db.Column(db.Integer, primary_key=True)
-    gameid = db.Column(db.ForeignKey('games.ID'))
+    gameid = db.Column(db.ForeignKey('games.ID'))   
     genreid = db.Column(db.Integer)
     game = db.relationship('Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
 
@@ -80,40 +81,42 @@ class Userinfo(db.Model):
     password = db.Column(db.Text)
     isadmin = db.Column(db.Boolean)
 
+
+def current_user():
+    if session.get("user"):
+        return Userinfo.query.get(session["user"])
+    else:
+        return False
+
 '''
 Below is all the routes for each webpage
 '''
 
 @app.route('/')  # home page
 def home():
-    return render_template('home.html')
+    return render_template('home.html', user=current_user())
 
 @app.route('/login', methods=["GET","POST"])
 def login():
-    if request.method == ["POST"]:
-        req = request.form
-        username = request.get("username")
-        user_info=None
-        user_info=Userinfo.query.filter(Userinfo.username==(username))
-        password = request.get("password")
-        check_password = check_password_hash(hash_password, password)
-
-        if not username in Userinfo:
-            print("Username not found")
-            return redirect(request.url)
+    if session.get("user"):
+        return redirect('/')
+    if request.method == "POST":
+        print(request.form.get("username"))
+        User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first()
+        if User and check_password_hash(User.password, request.form.get("password")): 
+            session["user"] = User.ID
+            flash("You logged in ya silly goose")
+            return redirect('/')
         else:
-            user = users[username]
-
-        if not password == Userinfo.password:
-            print("Incorrect Password")
-            return redirect(request.url)
+            flash(choice(["You're so smart you have an extra chromosome", "How many brain cells do you have? 1?", "you waste of oxygen!"]))
+            return redirect('/login')
+    return render_template("login.html")
+    
 
 @app.route('/logout')
 def logout():
-    session.pop("USERNAME", None)
-    return redirect(url_for("/login"))
-
-    return render_template('login.html')
+    session.pop("user")
+    return redirect("/login")
 
 @app.route('/create', methods=["GET","POST"])
 def create():
@@ -123,10 +126,6 @@ def create():
                 password = generate_password_hash(request.form.get('password'), salt_length=10),   
                 isadmin = 0
             )
-            # check_password = check_password_hash(hash_password, password)
-            # print(hash_password)
-            # print(check_password)
-            # session['admin'] = 'yes'
             db.session.add(user_info)
             db.session.commit()
     return render_template('create.html')
@@ -143,6 +142,10 @@ def videogame(id):
     game=None
     game=Game.query.filter(Game.ID==(id))
     return render_template('game.html', game=game)
+
+@app.route('/better_home')
+def home_but_better():
+    return render_template('better_home.html', user=current_user())
 
 if __name__ == "__main__":
     app.run(debug=True)
