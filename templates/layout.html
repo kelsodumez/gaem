@@ -20,6 +20,7 @@
 </head>
 
 <body>
+
     <h1>GAEM</h1>
 
     <!-- The  html code for the navbar -->
@@ -32,6 +33,12 @@
         <a href="javascript:void(0);" class="icon" onclick="jvsNavbar()">
             <i class="fa fa-bars"></i>
         </a>
+    </div>
+
+    <div>
+        {% for message in get_flashed_messages() %}
+            {{message}}
+        {% endfor %}
     </div>
 
     <div class="content">

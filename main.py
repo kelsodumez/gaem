@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session, redirect, url_for, request, Blueprint, flash
-from random import randint
+from random import randint, choice
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Column, Integer
@@ -96,26 +96,27 @@ Below is all the routes for each webpage
 def home():
     return render_template('home.html', user=current_user())
 
-@app.route('/login', methods=["GET","POST"])
-def login():
-    if session.get("user"):
-        return redirect('/')
-    if request.method == "POST":
-        print(request.form.get("username"))
-        User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first()
-        if User and check_password_hash(User.password, request.form.get("password")): 
-            session["user"] = User.ID
-            flash("You logged in ya silly goose")
-            return redirect('/')
+@app.route('/login', methods=["GET","POST"]) # /login page
+def login(): # login function
+    if session.get("user"): # 
+        return redirect('/') # redirects to home page
+    if request.method == "POST": # request method 
+        User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first() # form fillable to gain username variable
+        if User and check_password_hash(User.password, request.form.get("password")): # checks to see if the password is correct
+            flash("You logged in ya silly goose") # tells the user they have succesfully logged in
+            return redirect('/') # redirects to home page
         else:
-            flash(choice(["You're so smart you have an extra chromosome", "How many brain cells do you have? 1?", "you waste of oxygen!"]))
-            return redirect('/login')
-    return render_template("login.html")
+            flash(choice(["You're so smart you have an extra chromosome", "How many brain cells do you have? 1?", "you waste of oxygen!", "IDIOT", "that account doesnt exist"])) # error messages for failing to log in, hanan made me
+            return redirect('/login') # redirects to login page
+    return render_template("login.html") # the html template for this is login.html
     
 
-@app.route('/logout')
-def logout():
-    session.pop("user")
+@app.route('/logout') # /logout page
+def logout(): # logout function
+    try:
+        session.pop("user")
+    except:
+        print('you are already logged out!')
     return redirect("/login")
 
 @app.route('/create', methods=["GET","POST"])
