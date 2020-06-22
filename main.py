@@ -82,9 +82,9 @@ class Userinfo(db.Model):
     isadmin = db.Column(db.Boolean)
 
 
-def current_user():
-    if session.get("user"):
-        return Userinfo.query.get(session["user"])
+def current_user(): # current user function
+    if session.get("user"): # if it is able to get a session for user
+        return Userinfo.query.get(session["user"]) # return the user info
     else:
         return False
 
@@ -114,16 +114,16 @@ def login(): # login function
 @app.route('/logout') # /logout page
 def logout(): # logout function
     try:
-        session.pop("user")
+        session.pop("user") # ends user session
     except:
-        print('you are already logged out!')
+        print('you are already logged out!') # if there is no session to pop this will be printed
     return redirect("/login")
 
 @app.route('/create', methods=["GET","POST"])
-def create():
-    if request.method == "POST":
-            user_info = Userinfo (
-                username = request.form.get('username'),
+def create(): # create user function
+    if request.method == "POST": 
+            user_info = Userinfo (  
+                username = request.form.get('username'), #  
                 password = generate_password_hash(request.form.get('password'), salt_length=10),   
                 isadmin = 0
             )
@@ -137,17 +137,14 @@ def index():
     game=Game.query.all()
     return render_template('index.html', game=game)
 
-@app.route('/game/<int:id>')
+@app.route('/game/<int:id>') # app route
 def videogame(id):
     print(id)
     game=None
-    game=Game.query.filter(Game.ID==(id))
+    game=Game.query.filter(Game.ID == id)
     return render_template('game.html', game=game)
 
-@app.route('/better_home')
-def home_but_better():
-    return render_template('better_home.html', user=current_user())
+app.route("/video")(lambda: "Hello World")
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
+if __name__ == "__main__": 
+    app.run(debug=True) # this runs the site site with debug active
