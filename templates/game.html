@@ -37,4 +37,25 @@
             </tr>
         {% endfor %}
     </table>
+
+    <form method="POST" name="comment">
+        <input type="submit" value="Comment">
+        <input type="text" name="user_comment">
+    </form>
+
+    <table style="width:50%">
+        <!-- headers for table -->
+        <tr>
+            <th>Comments</th>
+        </tr>
+        <!-- here the data from the comments table of the database is displayed-->
+        {% for comment in comment %}
+        <tr>
+            <td>
+                {{ comment.comment }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
 {% endblock body %}

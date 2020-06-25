@@ -123,28 +123,31 @@ def logout(): # logout function
 def create(): # create user function
     if request.method == "POST": 
             user_info = Userinfo (  
-                username = request.form.get('username'), #  
-                password = generate_password_hash(request.form.get('password'), salt_length=10),   
-                isadmin = 0
+                username = request.form.get('username'), # requests username from the user as a form
+                password = generate_password_hash(request.form.get('password'), salt_length=10), # requests password from the user as a form then salts and hashes it with a salt length of 10
+                isadmin = 0 # user account is not an admin
             )
-            db.session.add(user_info)
-            db.session.commit()
+            db.session.add(user_info) # adds the data to the database
+            db.session.commit() # commits the add
     return render_template('create.html')
 
 @app.route('/index')  # index for games
 def index():
     game=None
-    game=Game.query.all()
-    return render_template('index.html', game=game)
+    game=Game.query.all() # queries the database for data from the table
+    return render_template('index.html', game=game) # returns the queried data as 'game'
 
 @app.route('/game/<int:id>') # app route
 def videogame(id):
     print(id)
     game=None
-    game=Game.query.filter(Game.ID == id)
-    return render_template('game.html', game=game)
+    game=Game.query.filter(Game.ID == id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
 
-app.route("/video")(lambda: "Hello World")
+    comment=None
+    comment=Comment.query.all()
+    return render_template('game.html', game=game, comment=comment) # returns the queried data as 'game'
+
+
 
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
