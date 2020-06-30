@@ -38,16 +38,19 @@
         {% endfor %}
     </table>
 
-    <form method="POST" name="comment">
+    <form method="POST" name="comment" action="/comment">
         <input type="submit" value="Comment">
-        <input type="text" name="user_comment">
+        <input type="text" name="comment_name">
     </form>
 
     <table style="width:50%">
         <!-- headers for table -->
+        {% for game in game %}
         <tr>
             <th>Comments</th>
+            <th><a href="/comment/{{ game.ID }}">Make a Comment</a></th>
         </tr>
+        {% endfor %}
         <!-- here the data from the comments table of the database is displayed-->
         {% for comment in comment %}
         <tr>

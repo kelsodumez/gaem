@@ -103,7 +103,8 @@ def login(): # login function
     if request.method == "POST": # request method 
         User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first() # form fillable to gain username variable
         if User and check_password_hash(User.password, request.form.get("password")): # checks to see if the password is correct
-            flash("You logged in ya silly goose") # tells the user they have succesfully logged in
+            flash("You logged in ya silly goose") # tells the user they have succesfully logged in.
+            session['user']=User.ID
             return redirect('/') # redirects to home page
         else:
             flash(choice(["You're so smart you have an extra chromosome", "How many brain cells do you have? 1?", "you waste of oxygen!", "IDIOT", "that account doesnt exist"])) # error messages for failing to log in, hanan made me
@@ -133,21 +134,27 @@ def create(): # create user function
 
 @app.route('/index')  # index for games
 def index():
-    game=None
     game=Game.query.all() # queries the database for data from the table
     return render_template('index.html', game=game) # returns the queried data as 'game'
 
 @app.route('/game/<int:id>') # app route
 def videogame(id):
     print(id)
-    game=None
     game=Game.query.filter(Game.ID == id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
-
-    comment=None
     comment=Comment.query.all()
     return render_template('game.html', game=game, comment=comment) # returns the queried data as 'game'
 
-
+@app.route('/comment/<int:id>', methods=["GET","POST"])
+def comment(id):
+    user = current_user()
+    if user:
+        new_comment = Comment()
+        new_comment.userinfo = user
+        new_comment.comment = request.form.get('comment')
+        Comment.gameid = id
+        db.session.add(new_comment)
+        db.session.commit()
+    return render_template('game.html')
 
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
