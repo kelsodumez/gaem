@@ -38,12 +38,12 @@
         {% endfor %}
     </table>
 
-    <form method="POST" name="comment" action="/comment">
+    <form method="POST" name="comment" action="/comment/{{ game.ID }}">
         <input type="submit" value="Comment">
         <input type="text" name="comment_name">
     </form>
 
-    <table style="width:50%">
+    <table style="width:15%">
         <!-- headers for table -->
         {% for game in game %}
         <tr>

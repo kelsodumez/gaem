@@ -139,19 +139,22 @@ def index():
 
 @app.route('/game/<int:id>') # app route
 def videogame(id):
-    print(id)
+    print(id) # prints the id (for debug)
     game=Game.query.filter(Game.ID == id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
     comment=Comment.query.all()
     return render_template('game.html', game=game, comment=comment) # returns the queried data as 'game'
 
 @app.route('/comment/<int:id>', methods=["GET","POST"])
 def comment(id):
+    print(id) # prints the id (for debug)
     user = current_user()
+    print(user)
     if user:
         new_comment = Comment()
         new_comment.userinfo = user
         new_comment.comment = request.form.get('comment')
         Comment.gameid = id
+        print(new_comment)
         db.session.add(new_comment)
         db.session.commit()
     return render_template('game.html')
