@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <form method="POST" name="comment">
+    <form method="POST" name="comment" action="/comment/{{ request.view_args.id }}">
         <input type="submit" value="Comment">
         <input type="text" name="new_comment">
     </form>
