@@ -4,7 +4,6 @@
 <table style="width:100%">
         <!-- Headers for the table -->
         <tr>
-            <th>Name</th>
             <th>Date Added</th>
             <th>User Added</th>
             <th>Description</th>
@@ -13,8 +12,10 @@
             <th>Developer</th>
         </tr>
         <!-- Here the data pulled from the database is displayed with html -->
+        <h2>
+            {{ game.name }}
+        </h2>
         <tr>
-            <td>{{ game.name }}</td>
             <td>
             {{ game.dateadded }}
             </td>
@@ -36,7 +37,6 @@
         </tr>
     </table>
 
-    {{ game }}
     {% if session.get('user') %}
     <form method="POST" name="comment" action="/comment/{{ game.ID }}">
         <input type="submit" value="Comment">
@@ -57,8 +57,8 @@
         <tr>
             <td>
                 {{ comment.comment }}
-                
             </td>
+            <td>{{ comment.userinfo.username }} </td>
         </tr>
         {% endfor %}
     </table>

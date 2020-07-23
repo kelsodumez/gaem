@@ -20,7 +20,13 @@ header {
   background-color: ();
 }
 
+
 /* css for h1 div */
+h2 {
+  background-color: var(--c1);
+  color: var(--c4);
+}
+
 h1 {
   background-color: var(--c1);
   color: var(--c2);
