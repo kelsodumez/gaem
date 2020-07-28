@@ -23,7 +23,7 @@ class Comment(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     gameid = db.Column(db.ForeignKey('games.ID'))
     userid = db.Column(db.ForeignKey('userinfo.ID'))
-    comment = db.Column(db.Text)
+    comment = db.Column(db.Text)    
     game = db.relationship('Game', primaryjoin='Comment.gameid == Game.ID', backref='comments')
     userinfo = db.relationship('Userinfo', primaryjoin='Comment.userid == Userinfo.ID', backref='comments')
 
@@ -141,9 +141,8 @@ def index():
 def videogame(id):
     print(id) # prints the id (for debug)
     game=Game.query.get(id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
-    comment=Comment.query.all()
 
-    return render_template('game.html', game=game, comment=comment) # returns the queried data as 'game'
+    return render_template('game.html', game=game) # returns the queried data as 'game'
 
 @app.route('/comment/<int:id>', methods=["POST"])
 def comment(id):
