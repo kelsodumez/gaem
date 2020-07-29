@@ -18,6 +18,7 @@ body {
 header {
   color: var(--c2);
   background-color: ();
+  border-radius: 12px;
 }
 
 
@@ -47,6 +48,7 @@ th {
   background-color: var(--c2);
 }
 
+
 tr:nth-child(odd) {
   background-color: var(--c5);
 }
@@ -55,10 +57,36 @@ tr:nth-child(even) {
   background-color: var(--c4);
 }
 
+.button {
+  background-color: var(--c2);
+  border: none;
+  color: var(--c3);
+  padding: 7.5px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 5px;
+  margin: 2px 1px;
+  cursor: pointer;
+  border-radius: 12px;
+  font: var(--c6);
+  border: 2px solid var(--c3);
+  box-shadow: 0 4px #999;
+}
+
+.button:hover {background-color: var(--c2)}
+
+.button:active {
+  background-color: var(--c2);
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
+}
+
 /* background colour for navbar */
 .navbar {
   background-color: var(--c3);
   overflow: hidden;
+  border-radius: 12px;
 }
 
 /* style for links inside navbar */
@@ -70,6 +98,7 @@ tr:nth-child(even) {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+  border-radius: 12px;
 }
 
 /* change colours of links when hovering */
