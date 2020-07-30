@@ -11,7 +11,8 @@
 /* css for body div */
 body {
   background-color: var(--c1);
-  font-family: var(--c6)
+  font-family: var(--c6);
+  /*font-size: 14px;*/
 }
 
 /* css for header div */
@@ -21,6 +22,15 @@ header {
   border-radius: 12px;
 }
 
+/*css for the data for each game*/
+.gamedata {
+  font-size: 18px;
+  background-color: var(--c4);
+  border-radius: 12px;
+  text-align: center;
+  margin-left: 400px;
+  margin-right: 400px;
+}
 
 /* css for h1 div */
 h2 {
