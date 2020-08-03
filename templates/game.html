@@ -5,26 +5,33 @@
     {{ game.name }}
 </h2>
 <div class="gamedata" id="gamedata">
-    {{ game.dateadded }}<br>
-    {{ game.useradded }}<br>
-    {{ game.description }}<br>
-    {{ game.datepublished }}<br>
-    <table>
+    <table id="gametable">
+        <tr>
+            <th>Description</th>
+        </tr>
+        <tr>
+            {{ game.description }}<br>
+        </tr>
+        <tr>         
+            {{ game.dateadded }}<br>
+        </tr>
+        <tr>
+            {{ game.useradded }}<br>
+        </tr>
+        <tr>
+            {{ game.datepublished }}<br>
+        </tr>
         <tr>
             <th>Publisher</th>
+        </tr>
+        <tr>
             {{ game.publisher }}<br>
+        </tr>
+        <tr>
             <th>Developer</th>
+        </tr>
+        <tr>
             {{ game.developer }}<br>
-        </tr>
-        <tr>
-            <td>
-                {{ game.publisher }}<br>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                {{ game.developer }}<br>
-            </td>
         </tr>
     </table>
 </div>
