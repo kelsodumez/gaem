@@ -122,7 +122,10 @@ def logout(): # logout function
 
 @app.route('/create', methods=["GET","POST"])
 def create(): # create user function
-    if request.method == "POST": 
+    if request.method == "POST":
+        if len(request.form.get('username')) > 20:
+            return render_template('create.html', error='username too long')
+        else:
             user_info = Userinfo (  
                 username = request.form.get('username'), # requests username from the user as a form
                 password = generate_password_hash(request.form.get('password'), salt_length=10), # requests password from the user as a form then salts and hashes it with a salt length of 10
@@ -130,7 +133,7 @@ def create(): # create user function
             )
             db.session.add(user_info) # adds the data to the database
             db.session.commit() # commits the add
-    return render_template('create.html')
+    return render_template('create.html', error='string')
 
 @app.route('/index')  # index for games
 def index():
