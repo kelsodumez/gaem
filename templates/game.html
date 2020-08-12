@@ -1,39 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h2>
-    {{ game.name }}
-</h2>
-<div class="gamedata" id="gamedata">
 
-    <!-- <table id="gametable">
-        <tr>
-            <th>Description</th>
-        </tr>
-        <tr>
+<div class="gamedata" id="gamedata"></div>
+
+    <table id="gametable">
+        <h1> {{ game.name }}</h1>
+        <desc>   
+            <h2> Description </h2>
             {{ game.description }}<br>
-        </tr>
-        <tr>         
+            
+            <h2> Date Added </h2>
             {{ game.dateadded }}<br>
-        </tr>
-        <tr>
+            
+            <h2> Posted By: </h2>
             {{ game.useradded }}<br>
-        </tr>
-        <tr>
+            
+            <h2> Date Published </h2>
             {{ game.datepublished }}<br>
-        </tr>
-        <tr>
-            <th>Publisher</th>
-        </tr>
-        <tr>
+            
+            <h2> Publisher </h2>
             {{ game.publisher }}<br>
-        </tr>
-        <tr>
-            <th>Developer</th>
-        </tr>
-        <tr>
+            
+            <h2> Developer </h2>
             {{ game.developer }}<br>
-        </tr> -->
+        </desc>
     </table>
 </div>
 

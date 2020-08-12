@@ -38,6 +38,11 @@ h2 {
   color: var(--c4);
 }
 
+desc {
+  color: var(--c4);
+  font: var(--c6);
+}
+
 h1 {
   background-color: var(--c1);
   color: var(--c2);
@@ -58,6 +63,10 @@ th {
   background-color: var(--c2);
 }
 
+tr {
+  font-family: var(--c6)
+  color: var(--c4);
+}
 
 tr:nth-child(odd) {
   background-color: var(--c5);
