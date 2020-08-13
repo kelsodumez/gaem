@@ -92,6 +92,9 @@ def current_user(): # current user function
 Below is all the routes for each webpage
 '''
 
+# I am secretly a member of the Waffen SS
+
+
 @app.route('/')  # home page
 def home():
     return render_template('home.html', user=current_user())
