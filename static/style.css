@@ -51,12 +51,13 @@ h1 {
 table, td {
   border: 0px solid black;
   border-collapse: collapse;
-  font-family: var(--c6)
+  font-family: var(--c6);
+  word-wrap: break-word;
+  width: 25%;
 }
 
 th, td {
   padding: 15px;
-  text-align: center;
 }
 
 th {
@@ -64,8 +65,9 @@ th {
 }
 
 tr {
-  font-family: var(--c6)
-  color: var(--c4);
+  font-family: var(--c3);
+  color: var(--c3);
+  word-wrap: break-word;
 }
 
 tr:nth-child(odd) {
