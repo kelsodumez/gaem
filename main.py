@@ -93,7 +93,11 @@ Below is all the routes for each webpage
 '''
 
 # I am secretly a member of the Waffen SS
-
+@app.context_processor
+def add_current_user():
+    if session.get('user'):
+        return dict(current_user=Userinfo.query.get(session['user']))
+    return dict(current_user=None)
 
 @app.route('/')  # home page
 def home():
@@ -137,7 +141,11 @@ def create(): # create user function
             db.session.add(user_info) # adds the data to the database
             db.session.commit() # commits the add
     return render_template('create.html', error='string')
-
+'''
+@app.route('delete_comment')
+def delete():
+    return render_template()
+'''
 @app.route('/index')  # index for games
 def index():
     game=Game.query.all() # queries the database for data from the table
