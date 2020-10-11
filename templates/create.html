@@ -2,6 +2,7 @@
 
 {% block body %}
 <p> {{session.admin}} </p>
+<!-- form for creating and account-->
 <form method="POST" action="/create" name="create">
     {{ error }}
     <input type="submit" class="button" value="Create An Account">

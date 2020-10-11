@@ -10,11 +10,11 @@ project_dir = os.path.dirname(os.path.abspath(__file__))
  # links to the database
 database_file = "sqlite:///{}".format(os.path.join(project_dir, "gaem.db"))
 app = Flask(__name__)
-app.secret_key = ("29fc9d808e2fa590040dc20e43d41c7346324bf9fe184273")
+app.secret_key = ("29fc9d808e2fa590040dc20e43d41c7346324bf9fe184273") # secret key for user password salting & hashing
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) # defines 'db' as the sqlalchemy connection
 '''
 Below is all the classes needed to define data from the database
 '''
@@ -92,7 +92,6 @@ def current_user(): # current user function
 Below is all the routes for each webpage
 '''
 
-# I am secretly a member of the Waffen SS
 @app.context_processor
 def add_current_user():
     if session.get('user'):
@@ -110,11 +109,11 @@ def login(): # login function
     if request.method == "POST": # request method 
         User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first() # form fillable to gain username variable
         if User and check_password_hash(User.password, request.form.get("password")): # checks to see if the password is correct
-            flash("You logged in ya silly gorilla") # tells the user they have succesfully logged in.
+            flash("You have succesfully logged in") # tells the user they have succesfully logged in.
             session['user']=User.ID
             return redirect('/') # redirects to home page
         else:
-            flash(choice(["You're so smart you have an extra chromosome", "How many brain cells do you have? 1?", "you waste of oxygen!", "IDIOT", "that account doesnt exist"])) # error messages for failing to log in, hanan made me
+            flash(choice(["You have failed to log in, make sure your password and username are correct"])) # error messages for failing to log in
             return redirect('/login') # redirects to login page
     return render_template("login.html") # the html template for this is login.html
     
@@ -130,8 +129,8 @@ def logout(): # logout function
 @app.route('/create', methods=["GET","POST"])
 def create(): # create user function
     if request.method == "POST":
-        if len(request.form.get('username')) > 20:
-            return render_template('create.html', error='username too long')
+        if len(request.form.get('username')) > 20: # if the inputted username is greater than 20 characters it will not be accepted
+            return render_template('create.html', error='Username exceeds limit of 20 characters') # prompts the user to create a shorter username
         else:
             user_info = Userinfo (  
                 username = request.form.get('username'), # requests username from the user as a form
@@ -145,6 +144,20 @@ def create(): # create user function
 @app.route('delete_comment')
 def delete():
     return render_template()
+'''
+'''
+@app.route('/delete/<int:id>', methods=["POST"])
+def delete(id):
+    print(id) # debug
+    print(request.full_path) # more debug
+    user = current_user()
+    #if user '= to comment id?': # user data/inputs from the html section are defined into their respective rows of the comment table
+        'code for for selecting what to delete?'
+        if request.form.get('comment'): 'need to change something here as well'
+            print("here")
+            db.session.delete(deletion)
+            db.session.commit() # commits the change
+    return redirect(request.form.get('from', '/'))
 '''
 @app.route('/index')  # index for games
 def index():
@@ -160,18 +173,18 @@ def videogame(id):
 
 @app.route('/comment/<int:id>', methods=["POST"])
 def comment(id):
-    print(id)
-    print(request.full_path)
+    print(id) # debug
+    print(request.full_path) # more debug
     user = current_user()
-    if user:
+    if user: # user data/inputs from the html section are defined into their respective rows of the comment table
         new_comment = Comment()
         new_comment.userinfo = current_user()
         new_comment.game = Game.query.get(id)
         new_comment.comment = request.form.get('comment')
         if request.form.get('comment'):
             print("here")
-            db.session.add(new_comment)
-            db.session.commit()
+            db.session.add(new_comment) # adds the comment to the db
+            db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
 
 

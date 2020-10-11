@@ -3,7 +3,7 @@
 {% block body %}
 
 <div class="gamedata" id="gamedata"></div>
-
+    <!-- table data for the game-->
     <table id="gametable">
         <h1> {{ game.name }}</h1>
         <desc>   
@@ -28,6 +28,7 @@
     </table>
 </div>
 
+<!-- form for inputting a comment, only visible if the user is logged in-->
 {% if session.get('user') %}
 <br>
 <form method="POST" name="comment" action="/comment/{{ game.ID }}">
