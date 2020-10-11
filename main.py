@@ -140,25 +140,14 @@ def create(): # create user function
             db.session.add(user_info) # adds the data to the database
             db.session.commit() # commits the add
     return render_template('create.html', error='string')
-'''
-@app.route('delete_comment')
-def delete():
-    return render_template()
-'''
-'''
+
 @app.route('/delete/<int:id>', methods=["POST"])
 def delete(id):
-    print(id) # debug
-    print(request.full_path) # more debug
-    user = current_user()
-    #if user '= to comment id?': # user data/inputs from the html section are defined into their respective rows of the comment table
-        'code for for selecting what to delete?'
-        if request.form.get('comment'): 'need to change something here as well'
-            print("here")
-            db.session.delete(deletion)
-            db.session.commit() # commits the change
-    return redirect(request.form.get('from', '/'))
-'''
+    selected_comment = Comment()
+    db.session.delete(selected_comment)
+    db.session.commit()
+    return redirect(request.form.get('from','/'))
+
 @app.route('/index')  # index for games
 def index():
     game=Game.query.all() # queries the database for data from the table
@@ -168,7 +157,6 @@ def index():
 def videogame(id):
     print(id) # prints the id (for debug)
     game=Game.query.get(id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
-
     return render_template('game.html', game=game) # returns the queried data as 'game'
 
 @app.route('/comment/<int:id>', methods=["POST"])

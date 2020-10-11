@@ -39,6 +39,7 @@
 {% endif %}
 <br>
 
+
 <table style="width:25%">
     <!-- headers for table -->
     <tr>
@@ -53,8 +54,12 @@
             {{ comment.comment }}
         </td>
         <td>{{ comment.userinfo.username }} </td>
+        <form method="POST" name="delete" action="/delete/{{ Comment.ID }}">
+            <td><input type="submit" class="button" value="Delete"></td>
+        </form>
     </tr>
     {% endfor %}
 </table>
+
 
 {% endblock body %}
