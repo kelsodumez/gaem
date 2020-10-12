@@ -45,7 +45,6 @@
     <tr>
         <th>Comment</th>
         <th>User</th>
-
     </tr>
     <!-- here the data from the comments table of the database is displayed-->
     {% for comment in game.comments %}
@@ -54,8 +53,12 @@
             {{ comment.comment }}
         </td>
         <td>{{ comment.userinfo.username }} </td>
-        <form method="POST" name="delete" action="/delete/{{ Comment.ID }}">
-            <td><input type="submit" class="button" value="Delete"></td>
+        <!-- delete button -->
+        <form method="POST" name="delete" action="/delete">
+            <td><input type="submit" class="button" value="Delete">
+                <input type="hidden" value="{{ comment.ID }}" name="deletion">
+                <input type="hidden" value="{{ comment.userid }}" name="username">
+            </td>
         </form>
     </tr>
     {% endfor %}

@@ -141,11 +141,16 @@ def create(): # create user function
             db.session.commit() # commits the add
     return render_template('create.html', error='string')
 
-@app.route('/delete/<int:id>', methods=["POST"])
-def delete(id):
-    selected_comment = Comment()
-    db.session.delete(selected_comment)
-    db.session.commit()
+@app.route('/delete', methods=["POST"])
+def delete():
+    user = current_user.userinfo.ID()
+    deletion_username = request.form["username"]
+    if user == deletion_username:
+        deletion_ID = request.form["deletion"]
+        print(deletion_ID) 
+        to_delete = Comment.query.get(deletion_ID)
+        db.session.delete(to_delete)
+        db.session.commit()
     return redirect(request.form.get('from','/'))
 
 @app.route('/index')  # index for games
