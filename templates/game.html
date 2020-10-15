@@ -55,9 +55,10 @@
         <td>{{ comment.userinfo.username }} </td>
         <!-- delete button -->
         <form method="POST" name="delete" action="/delete">
-            <td><input type="submit" class="button" value="Delete">
+            <td>
+                <input type="submit" class="button" value="Delete">
                 <input type="hidden" value="{{ comment.ID }}" name="deletion">
-                <input type="hidden" value="{{ comment.userid }}" name="username">
+                <input type="hidden" value="{{ comment.userid }}" name="userid">
             </td>
         </form>
     </tr>

@@ -131,6 +131,8 @@ def create(): # create user function
     if request.method == "POST":
         if len(request.form.get('username')) > 20: # if the inputted username is greater than 20 characters it will not be accepted
             return render_template('create.html', error='Username exceeds limit of 20 characters') # prompts the user to create a shorter username
+        #elif request.form.get('username') == Userinfo.query.filter(Userinfo.username == (request.form.get("username")):
+            #return render_template('create.html', error='Username already in use') # prompts the user to create a unique username
         else:
             user_info = Userinfo (  
                 username = request.form.get('username'), # requests username from the user as a form
@@ -143,11 +145,13 @@ def create(): # create user function
 
 @app.route('/delete', methods=["POST"])
 def delete():
-    user = current_user.userinfo.ID()
-    deletion_username = request.form["username"]
-    if user == deletion_username:
+    if current_user().ID == int(request.form["userid"]):
         deletion_ID = request.form["deletion"]
-        print(deletion_ID) 
+        to_delete = Comment.query.get(deletion_ID)
+        db.session.delete(to_delete)
+        db.session.commit()
+    elif current_user().ID == 1:
+        deletion_ID = request.form["deletion"]
         to_delete = Comment.query.get(deletion_ID)
         db.session.delete(to_delete)
         db.session.commit()
