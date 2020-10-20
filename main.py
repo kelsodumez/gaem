@@ -131,7 +131,7 @@ def create(): # create user function
     if request.method == "POST":
         if len(request.form.get('username')) > 20: # if the inputted username is greater than 20 characters it will not be accepted
             return render_template('create.html', error='Username exceeds limit of 20 characters') # prompts the user to create a shorter username
-        elif request.form.get('username') == Userinfo.query.filter(Userinfo.username == (request.form.get("username")):
+        elif Userinfo.query.filter(Userinfo.username == request.form.get("username")).first():
             return render_template('create.html', error='Username already in use') # prompts the user to create a unique username
         else:
             user_info = Userinfo (  
@@ -147,17 +147,18 @@ def create(): # create user function
 def delete():
     if current_user() == False:
         return render_template('home.html', error='To delete a comment you must be logged in as the creator of the comment or an admin')
-    elif current_user().ID == int(request.form["userid"]):
+    elif current_user().ID == int(request.form["userid"]): # if the id of the user logged in is equal to the id of the user that added the comment 
+        deletion_ID = request.form["deletion"] # requests form input for what to delete from html
+        to_delete = Comment.query.get(deletion_ID) # queries comment table based on form input to find data to delete
+        db.session.delete(to_delete) # deletes to_delete
+        db.session.commit() # commits changes
+    elif current_user().ID == 1: # id of admin is 1
         deletion_ID = request.form["deletion"]
         to_delete = Comment.query.get(deletion_ID)
         db.session.delete(to_delete)
         db.session.commit()
-    elif current_user().ID == 1:
-        deletion_ID = request.form["deletion"]
-        to_delete = Comment.query.get(deletion_ID)
-        db.session.delete(to_delete)
-        db.session.commit()
-    return redirect(request.form.get('from','game.html'))
+    print(request.full_path)
+    return redirect(request.form.get('from','/'))
 
 @app.route('/index')  # index for games
 def index():
@@ -166,14 +167,14 @@ def index():
 
 @app.route('/game/<int:id>') # app route
 def videogame(id):
-    print(id) # prints the id (for debug)
+    #print(id) # prints the id (for debug)
     game=Game.query.get(id) # queries the database for data from the table where the id of the data is equal to the id of the game selected
     return render_template('game.html', game=game) # returns the queried data as 'game'
 
 @app.route('/comment/<int:id>', methods=["POST"])
 def comment(id):
-    print(id) # debug
-    print(request.full_path) # more debug
+    #print(id) # debug
+    #print(request.full_path) # more debug
     user = current_user()
     if user: # user data/inputs from the html section are defined into their respective rows of the comment table
         new_comment = Comment()

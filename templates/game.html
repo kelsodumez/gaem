@@ -54,13 +54,16 @@
         </td>
         <td>{{ comment.userinfo.username }} </td>
         <!-- delete button -->
+        {% if session.get('user') %}
         <form method="POST" name="delete" action="/delete">
-            <td>
-                <input type="submit" class="button" value="Delete">
-                <input type="hidden" value="{{ comment.ID }}" name="deletion">
-                <input type="hidden" value="{{ comment.userid }}" name="userid">
-            </td>
+        <td>
+            <input type="submit" class="button" value="Delete">
+            <input type="hidden" value="{{ comment.ID }}" name="deletion">
+            <input type="hidden" value="{{ comment.userid }}" name="userid">
+            <input type="hidden" value="{{ request.path }}" name="from"> <!-- change to full.path if i need to do fancy stuff-->
+        </td>
         </form>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

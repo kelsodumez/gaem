@@ -1,9 +1,9 @@
 /* root for being able to store and easily change colours and such */
 :root {
-  --c1: #2E3532;
-  --c2: #b8F3FF;
-  --c3: #0a0908;
-  --c4: #f2f4f3;
+  --c1: #121212;
+  --c2: #1db954;
+  --c3: #282828;
+  --c4: #efefef;
   --c5: #e7e5e5;
   --c6:  'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -140,3 +140,4 @@ tr:nth-child(even) {
 .navbar .icon {
   display: none;
 }
+
