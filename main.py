@@ -107,13 +107,13 @@ def login(): # login function
     if session.get("user"): # 
         return redirect('/') # redirects to home page
     if request.method == "POST": # request method 
-        User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first() # form fillable to gain username variable
+        User = Userinfo.query.filter(Userinfo.username==request.form.get("username")).first() # form fillable to gain username variable:
         if User and check_password_hash(User.password, request.form.get("password")): # checks to see if the password is correct
             flash("You have succesfully logged in") # tells the user they have succesfully logged in.
             session['user']=User.ID
             return redirect('/') # redirects to home page
         else:
-            return render_template('login.html', error='Username exceeds limit of 20 characters')
+            return render_template('login.html', error='Username exceeds limit of 20 characters or does not exist')
     return render_template("login.html") # the html template for this is login.html
     
 

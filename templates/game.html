@@ -54,6 +54,7 @@
         </td>
         <td>{{ comment.userinfo.username }} </td>
         <!-- delete button -->
+        <desc>you can only delete your own comments :)</desc>
         {% if session.get('user') %}
         <form method="POST" name="delete" action="/delete">
         <td>
