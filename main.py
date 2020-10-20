@@ -98,9 +98,9 @@ def add_current_user():
         return dict(current_user=Userinfo.query.get(session['user']))
     return dict(current_user=None)
 
-@app.route('/')  # home page
-def home():
-    return render_template('home.html', user=current_user())
+#@app.route('/')  # home page
+#def home():
+    #return render_template('home.html', user=current_user())
 
 @app.route('/login', methods=["GET","POST"]) # /login page
 def login(): # login function
@@ -113,8 +113,7 @@ def login(): # login function
             session['user']=User.ID
             return redirect('/') # redirects to home page
         else:
-            flash(choice(["You have failed to log in, make sure your password and username are correct"])) # error messages for failing to log in
-            return redirect('/login') # redirects to login page
+            return render_template('login.html', error='Username exceeds limit of 20 characters')
     return render_template("login.html") # the html template for this is login.html
     
 
@@ -160,7 +159,7 @@ def delete():
     print(request.full_path)
     return redirect(request.form.get('from','/'))
 
-@app.route('/index')  # index for games
+@app.route('/')  # index for games
 def index():
     game=Game.query.all() # queries the database for data from the table
     return render_template('index.html', game=game) # returns the queried data as 'game'
