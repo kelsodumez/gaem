@@ -13,6 +13,10 @@ body {
   background-color: var(--c1);
   font-family: var(--c6);
   /*font-size: 14px;*/
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-right: 40px;
+  margin-left: 40px;
 }
 
 /* css for header div */
@@ -20,6 +24,14 @@ header {
   color: var(--c2);
   background-color: ();
   border-radius: 12px;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+h3 {
+  font-size: 18px
 }
 
 /*css for the data for each game*/
@@ -54,22 +66,27 @@ table, td {
   font-family: var(--c6);
   word-wrap: break-word;
   width: 25%;
+  text-decoration: none;
+  font-size: 18px;  
 }
 
 th, td {
   padding: 15px;
   align-content: center;
   text-align: center;
+  text-decoration: none;
 }
 
 th {
   background-color: var(--c2);
+  text-decoration: none;
 }
 
 tr {
   font-family: var(--c3);
   color: var(--c3);
   word-wrap: break-word;
+  text-decoration: none;
 }
 
 tr:nth-child(odd) {
@@ -78,6 +95,10 @@ tr:nth-child(odd) {
 
 tr:nth-child(even) {
   background-color: var(--c4);
+}
+
+a {
+  text-decoration: none;
 }
 
 .button {

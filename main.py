@@ -123,7 +123,8 @@ def logout(): # logout function
         session.pop("user") # ends user session
     except:
         print('you are already logged out!') # if there is no session to pop this will be printed
-    return redirect("/login")
+        return redirect("/login")
+    return redirect("/")
 
 @app.route('/create', methods=["GET","POST"])
 def create(): # create user function
