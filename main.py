@@ -140,7 +140,7 @@ def create(): # create user function
             )
             db.session.add(user_info) # adds the data to the database
             db.session.commit() # commits the add
-    return render_template('create.html', error='string')
+    return render_template('create.html')
 
 @app.route('/delete', methods=["POST"])
 def delete():
@@ -186,6 +186,7 @@ def comment(id):
             db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
 
+#function for adding game?
 
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active

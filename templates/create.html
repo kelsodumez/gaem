@@ -3,9 +3,7 @@
 {% block body %}
 
 <!-- form for creating and account-->
-<desc>
-    {{ error }}
-</desc>
+<desc>{{ error }}</desc>
 <form method="POST" action="/create" name="create">
     <input type="submit" class="button" value="Create An Account">
     <input type="text" name="username" placeholder="username">
