@@ -187,7 +187,5 @@ def comment(id):
             db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
 
-#function for adding game?
-
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
