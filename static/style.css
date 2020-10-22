@@ -8,6 +8,20 @@
   --c6:  'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.column {
+  float: left;
+  width: 50%;
+}
+
+.content {
+  background-color: var(--c3);
+  border-radius: 12px;
+}
+
+.comments {
+  width: 100%;
+}
+
 /* css for body div */
 body {
   background-color: var(--c1);
@@ -46,8 +60,9 @@ h3 {
 
 /* css for h1 div */
 h2 {
-  background-color: var(--c1);
+  background-color: var(--c3);
   color: var(--c4);
+  border-radius: 12px;
 }
 
 desc {
@@ -65,9 +80,41 @@ table, td {
   border-collapse: collapse;
   font-family: var(--c6);
   word-wrap: break-word;
-  width: 25%;
   text-decoration: none;
-  font-size: 18px;  
+  font-size: 18px; 
+}
+
+.gamestuff {
+  width: 25%;
+}
+
+tbody {
+  width: 100%;
+}
+
+form {
+  align-content: center;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  background-color: var(--c3);
+  border-radius: 12px;
+  height: 10%;
+  width: 20%;
+}
+
+form input{
+  margin-top: 3%;
+  width: 80%;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.commentform {
+  margin-top: 7%;
 }
 
 th, td {
@@ -75,6 +122,7 @@ th, td {
   align-content: center;
   text-align: center;
   text-decoration: none;
+  word-wrap: break-word;
 }
 
 th {

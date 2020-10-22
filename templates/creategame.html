@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% if session.get('user') %}
+<br>
+<form method="POST" name="creategame" class="commentform">
+    <input type="text" name="gamename" placeholder=game name">
+    <input type="hidden" value="{{ request.path }}" name="from"> <!-- change to full.path if i need to do fancy stuff-->
+    <input type="submit" class="button" value="Comment">
+</form>
+{% endif %}
+<br>
+
+{% endblock body %}
