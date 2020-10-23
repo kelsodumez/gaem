@@ -172,27 +172,29 @@ def creategame():
     user=current_user()
     if user:
         new_game = Game()
+        new_publisher = Publisher()
+        new_developer = Developer()
         new_game.name = request.form.get('gamename')
-        new_game.dateadded = datetime.datetime.now()
-        #new_game.dateadded = str(new_game.dateadded)
-        #new_game.dateadded = new_game.dateadded.split(" ")
-        #new_game.dateadded.pop(1)
-        #new_game.dateadded = str(new_game.dateadded)
-        #print(new_game.dateadded)
+        new_game.dateadded = datetime.date.today()#datetime.now().date()
         new_game.useradded = current_user()
         new_game.description = request.form.get('description')
         new_game.datepublished = request.form.get('datepublished')
         new_game.publisher = request.form.get('publisher')
+        new_publisher.publishername == new_game.publisher
         new_game.developer = request.form.get('developer')
+        new_developer.developername == new_game.developer
         print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
-        new_game.publisher, new_game.developer)
-        if request.form.get(''):
+        new_game.publisher, new_game.developer) # debug
+        if request.form.get('gamename'):
             print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
-            new_game.publisher, new_game.developer)
-            print("here the second")
+            new_game.publisher, new_game.developer) # debug
+            print("here the second") # debug
+            db.session.add(new_developer)
+            db.session.commit()
+            db.session.add(new_publisher)
+            db.session.commit()
             db.session.add(new_game)
             db.session.commit() # this probably isnt working because of publisher & developer being foreign keys, need to figure out how to get around this
-            print()
     return redirect(request.form.get('from', '/'))
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
