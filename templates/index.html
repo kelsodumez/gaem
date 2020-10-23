@@ -3,7 +3,19 @@
 {% block body %}
 <h1>Game Index</h1>
 <!-- The table for the database-->
-
+{% if session.get('user') %}
+<br>
+<form method="POST" name="creategame" action="/creategame">
+    <input type="text" name="gamename" placeholder="game name">
+    <input type="text" name="description" placeholder="game description">
+    <input type="date" name="datepublished" placeholder="date published">
+    <input type="text" name="publisher" placeholder="publisher">
+    <input type="text" name="developer" placeholder="developer">
+    <input type="hidden" value="{{ request.path }}" name="from"> <!-- change to full.path if i need to do fancy stuff-->
+    <input type="submit" class="button" value="Add Game">
+</form>
+{% endif %}
+<br>
 <table style="width:100%">
     <!-- Headers for the table -->
     <tr>

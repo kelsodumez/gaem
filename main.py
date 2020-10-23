@@ -34,19 +34,6 @@ class Developer(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     developername = db.Column(db.Text)
 
-class Gamegenre(db.Model):
-    __tablename__ = 'gamegenre'
-    ID = db.Column(db.Integer, primary_key=True)
-    gameid = db.Column(db.ForeignKey('games.ID'))   
-    genreid = db.Column(db.Integer)
-    game = db.relationship('Game', primaryjoin='Gamegenre.gameid == Game.ID', backref='gamegenres')
-
-class Genre(Gamegenre):
-    __tablename__ = 'genres'
-    ID = db.Column(db.ForeignKey('gamegenre.ID'), primary_key=True)
-    genrename = db.Column(db.Text)
-    description = db.Column(db.Text)
-
 class Game(db.Model):
     __tablename__ = 'games'
     ID = db.Column(db.Integer, primary_key=True)
@@ -65,16 +52,6 @@ class Publisher(db.Model):
     __tablename__ = 'publishers'
     ID = db.Column(db.Integer, primary_key=True)
     publishername = db.Column(db.Text)
-
-class Rating(db.Model):
-    __tablename__ = 'ratings'
-    ID = db.Column(db.Integer, primary_key=True)
-    gameid = db.Column(db.ForeignKey('games.ID'))
-    userid = db.Column(db.ForeignKey('userinfo.ID'))
-    rating = db.Column(db.Integer)
-
-    game = db.relationship('Game', primaryjoin='Rating.gameid == Game.ID', backref='ratings')
-    userinfo = db.relationship('Userinfo', primaryjoin='Rating.userid == Userinfo.ID', backref='ratings')
 
 class Userinfo(db.Model):
     __tablename__ = 'userinfo'
@@ -183,37 +160,39 @@ def comment(id):
         new_comment.userinfo = current_user()
         new_comment.game = Game.query.get(id)
         new_comment.comment = request.form.get('comment')
+        print(new_comment.userinfo)
         if request.form.get('comment'):
             print("here")
             db.session.add(new_comment) # adds the comment to the db
             db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
 
-@app.route('/creategame')
+@app.route('/creategame', methods=["POST"])
 def creategame():
     user=current_user()
     if user:
-        new_game = creategame()
+        new_game = Game()
         new_game.name = request.form.get('gamename')
-        new_game.dateadded = datetime.date.now()
-        new_game.dateadded = str(new_game.dateadded)
-        new_game.dateadded = new_game.dateadded.split(" ")
-        new_game.dateadded.pop(1)
-        new_game.dateadded = str(new_game.dateadded)
-        print(new_game.dateadded)
+        new_game.dateadded = datetime.datetime.now()
+        #new_game.dateadded = str(new_game.dateadded)
+        #new_game.dateadded = new_game.dateadded.split(" ")
+        #new_game.dateadded.pop(1)
+        #new_game.dateadded = str(new_game.dateadded)
+        #print(new_game.dateadded)
         new_game.useradded = current_user()
         new_game.description = request.form.get('description')
         new_game.datepublished = request.form.get('datepublished')
-        if request.form.get('creategame'):
+        new_game.publisher = request.form.get('publisher')
+        new_game.developer = request.form.get('developer')
+        print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
+        new_game.publisher, new_game.developer)
+        if request.form.get(''):
+            print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
+            new_game.publisher, new_game.developer)
             print("here the second")
             db.session.add(new_game)
-            db.session.commit()
-    else:
-        return render_template('creategame.html', error="you must be logged in to add a game")
-    #description
-    #datepublished
-    #publisher
-    #developer
-    return render_template('creategame.html')
+            db.session.commit() # this probably isnt working because of publisher & developer being foreign keys, need to figure out how to get around this
+            print()
+    return redirect(request.form.get('from', '/'))
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
