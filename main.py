@@ -4,7 +4,9 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Column, Integer
 import datetime
-from werkzeug import generate_password_hash, check_password_hash
+#from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
  # links to the database
@@ -187,5 +189,31 @@ def comment(id):
             db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
 
+@app.route('/creategame')
+def creategame():
+    user=current_user()
+    if user:
+        new_game = creategame()
+        new_game.name = request.form.get('gamename')
+        new_game.dateadded = datetime.date.now()
+        new_game.dateadded = str(new_game.dateadded)
+        new_game.dateadded = new_game.dateadded.split(" ")
+        new_game.dateadded.pop(1)
+        new_game.dateadded = str(new_game.dateadded)
+        print(new_game.dateadded)
+        new_game.useradded = current_user()
+        new_game.description = request.form.get('description')
+        new_game.datepublished = request.form.get('datepublished')
+        if request.form.get('creategame'):
+            print("here the second")
+            db.session.add(new_game)
+            db.session.commit()
+    else:
+        return render_template('creategame.html', error="you must be logged in to add a game")
+    #description
+    #datepublished
+    #publisher
+    #developer
+    return render_template('creategame.html')
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active

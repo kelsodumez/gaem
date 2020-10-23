@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
+<desc>{{ error }}</desc>
 {% if session.get('user') %}
 <br>
 <form method="POST" name="creategame" class="commentform">
-    <input type="text" name="gamename" placeholder=game name">
-    <input type="hidden" value="{{ request.path }}" name="from"> <!-- change to full.path if i need to do fancy stuff-->
+    <input type="text" name="gamename" placeholder="game name">
+    <input type="text" name="description" placeholder="game description">
+    <input type="date" name="datepublished" placeholder="date published">
+    <input type=""
     <input type="submit" class="button" value="Comment">
 </form>
 {% endif %}

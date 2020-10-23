@@ -27,6 +27,7 @@
     <div class="navbar" id="topnav">
         {{ nav_item('Index', '/') }}
         <!--{{ nav_item('Index', '/index') }}-->
+        {{ nav_item('Add Game', '/creategame')}}
         {{ nav_item('Create an Account', '/create') }}
         {% if current_user %}
             {{ nav_item('Logged in as {}, Logout'.format(current_user.username), '/logout')}}
