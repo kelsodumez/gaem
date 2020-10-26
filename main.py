@@ -72,9 +72,9 @@ Below is all the routes for each webpage
 
 @app.context_processor
 def add_current_user():
-    if session.get('user'):
-        return dict(current_user=Userinfo.query.get(session['user']))
-    return dict(current_user=None)
+    if session.get('user'): # if a user is logged in
+        return dict(current_user=Userinfo.query.get(session['user'])) # current user is equal to userinfo of user session
+    return dict(current_user=None) # otherwise current user is none
 
 #@app.route('/')  # home page
 #def home():
@@ -124,7 +124,7 @@ def create(): # create user function
 @app.route('/delete', methods=["POST"])
 def delete():
     if current_user() == False:
-        return render_template('home.html', error='To delete a comment you must be logged in as the creator of the comment or an admin')
+        return render_template('index.html', error='To delete a comment you must be logged in as the creator of the comment or an admin')
     elif current_user().ID == int(request.form["userid"]): # if the id of the user logged in is equal to the id of the user that added the comment 
         deletion_ID = request.form["deletion"] # requests form input for what to delete from html
         to_delete = Comment.query.get(deletion_ID) # queries comment table based on form input to find data to delete
@@ -155,13 +155,13 @@ def comment(id):
     #print(request.full_path) # more debug
     user = current_user()
     if user: # user data/inputs from the html section are defined into their respective rows of the comment table
-        new_comment = Comment()
-        new_comment.userinfo = current_user()
-        new_comment.game = Game.query.get(id)
-        new_comment.comment = request.form.get('comment')
-        print(new_comment.userinfo)
-        if request.form.get('comment'):
-            print("here")
+        new_comment = Comment() # new_comment is to be added to the comments table
+        new_comment.userinfo = current_user() #user info is equal to the current user
+        new_comment.game = Game.query.get(id) #the game id is gained from the form
+        new_comment.comment = request.form.get('comment') # the comment is gained from the form
+        print(new_comment.userinfo) # debug
+        if request.form.get('comment'): # if the comment form is submitted
+            print("here") #debug
             db.session.add(new_comment) # adds the comment to the db
             db.session.commit() # commits the change
     return redirect(request.form.get('from', '/'))
@@ -169,31 +169,24 @@ def comment(id):
 @app.route('/creategame', methods=["POST"])
 def creategame():
     user=current_user()
-    if user:
+    if user: # if there is a user logged in
         new_game = Game()
-        #new_publisher = Publisher()
-        #new_developer = Developer()
-        new_game.name = request.form.get('gamename')
-        new_game.dateadded = datetime.utcnow()#.strftime('%Y-%m-%d')
-        new_game.userinfo = current_user()
-        new_game.description = request.form.get('description')
-        new_game.datepublished = str(request.form.get('datepublished'))
-        new_game.publisher = request.form.get('publisher')
-        #new_publisher.publishername == new_game.publisher
-        new_game.developer = request.form.get('developer')
-        #new_developer.developername == new_game.developer
+        new_game.name = request.form.get('gamename') # the name of the game to be added is gained from the form
+        new_game.dateadded = datetime.utcnow() # the date added is taken from the datetime function to gain the time of submission
+        new_game.userinfo = current_user() # userinfo is equal to the current user logged in
+        new_game.description = request.form.get('description') # gained from form
+        new_game.datepublished = str(request.form.get('datepublished')) # gained from form as a string
+        new_game.publisher = request.form.get('publisher') # gained from form
+        new_game.developer = request.form.get('developer') # gained from form
         print(new_game.name, '''new_game.dateadded,''', new_game.useradded, new_game.description, new_game.datepublished, 
         new_game.publisher, new_game.developer) # debug
         if request.form.get('gamename'):
             print(new_game.name, '''new_game.dateadded,''', new_game.useradded, new_game.description, new_game.datepublished, 
             new_game.publisher, new_game.developer) # debug
             print("here the second") # debug
-            #db.session.add(new_developer)
-            #db.session.commit()
-            #db.session.add(new_publisher)
-            #db.session.commit()
             db.session.add(new_game)
             db.session.commit() # this probably isnt working because of publisher & developer being foreign keys, need to figure out how to get around this
-    return redirect(request.form.get('from', '/'))
+    return redirect(request.form.get('from', '/')) # redirects to index
+
 if __name__ == "__main__": 
     app.run(debug=True) # this runs the site site with debug active
