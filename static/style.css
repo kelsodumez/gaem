@@ -121,11 +121,18 @@ form input{
 .gameform textarea {
   width: 80%;
   height: 60%;
+  font: var(--c6);
+  font-size: 13px;
 }
 .commentform {
   margin-top: 0%;
   position: relative;
   margin-bottom: 0%;
+}
+
+.commentform textarea {
+  font: var(--c6);
+  font-size: 13px;
 }
 
 th, td {
