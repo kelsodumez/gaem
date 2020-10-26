@@ -5,9 +5,9 @@
 <!-- The table for the database-->
 {% if session.get('user') %}
 <br>
-<form method="POST" name="creategame" action="/creategame">
+<form method="POST" name="creategame" action="/creategame" class="gameform">
     <input type="text" name="gamename" placeholder="game name">
-    <input type="text" name="description" placeholder="game description">
+    <textarea name="description" placeholder="game description" class="description"></textarea>
     <input type="date" name="datepublished" placeholder="date published">
     <input type="text" name="publisher" placeholder="publisher">
     <input type="text" name="developer" placeholder="developer">

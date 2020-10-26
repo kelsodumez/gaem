@@ -3,10 +3,9 @@ from random import randint, choice
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Column, Integer
-import datetime
 #from werkzeug import generate_password_hash, check_password_hash
 from werkzeug.security import generate_password_hash, check_password_hash
-import datetime
+from datetime import datetime
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
  # links to the database
@@ -38,10 +37,10 @@ class Game(db.Model):
     __tablename__ = 'games'
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
-    dateadded = db.Column(db.Date)
+    dateadded = db.Column(db.Date)#Date)
     useradded = db.Column(db.ForeignKey('userinfo.username'))
     description = db.Column(db.Text, unique=True)
-    datepublished = db.Column(db.Date)
+    datepublished = db.Column(db.Text)#Date)
     publisher = db.Column(db.ForeignKey('publishers.publishername'))
     developer = db.Column(db.ForeignKey('developers.developername'))
     developer1 = db.relationship('Developer', primaryjoin='Game.developer == Developer.developername', backref='games')
@@ -172,27 +171,27 @@ def creategame():
     user=current_user()
     if user:
         new_game = Game()
-        new_publisher = Publisher()
-        new_developer = Developer()
+        #new_publisher = Publisher()
+        #new_developer = Developer()
         new_game.name = request.form.get('gamename')
-        new_game.dateadded = datetime.date.today()#datetime.now().date()
-        new_game.useradded = current_user()
+        new_game.dateadded = datetime.utcnow()#.strftime('%Y-%m-%d')
+        new_game.userinfo = current_user()
         new_game.description = request.form.get('description')
-        new_game.datepublished = request.form.get('datepublished')
+        new_game.datepublished = str(request.form.get('datepublished'))
         new_game.publisher = request.form.get('publisher')
-        new_publisher.publishername == new_game.publisher
+        #new_publisher.publishername == new_game.publisher
         new_game.developer = request.form.get('developer')
-        new_developer.developername == new_game.developer
-        print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
+        #new_developer.developername == new_game.developer
+        print(new_game.name, '''new_game.dateadded,''', new_game.useradded, new_game.description, new_game.datepublished, 
         new_game.publisher, new_game.developer) # debug
         if request.form.get('gamename'):
-            print(new_game.name, new_game.dateadded, new_game.useradded, new_game.description, new_game.datepublished, 
+            print(new_game.name, '''new_game.dateadded,''', new_game.useradded, new_game.description, new_game.datepublished, 
             new_game.publisher, new_game.developer) # debug
             print("here the second") # debug
-            db.session.add(new_developer)
-            db.session.commit()
-            db.session.add(new_publisher)
-            db.session.commit()
+            #db.session.add(new_developer)
+            #db.session.commit()
+            #db.session.add(new_publisher)
+            #db.session.commit()
             db.session.add(new_game)
             db.session.commit() # this probably isnt working because of publisher & developer being foreign keys, need to figure out how to get around this
     return redirect(request.form.get('from', '/'))

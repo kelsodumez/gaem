@@ -113,6 +113,15 @@ form input{
   text-align: center;
 }
 
+.gameform {
+  position: relative;
+  margin-top: 4%;
+}
+
+.gameform textarea {
+  width: 80%;
+  height: 60%;
+}
 .commentform {
   margin-top: 0%;
   position: relative;

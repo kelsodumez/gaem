@@ -36,7 +36,7 @@
 {% if session.get('user') %}
 <br>
 <form method="POST" name="comment" action="/comment/{{ game.ID }}" class="commentform">
-    <input type="text" name="comment" placeholder="comment here">
+    <textarea name="comment" placeholder="comment here"></textarea>
     <input type="hidden" value="{{ request.path }}" name="from"> <!-- change to full.path if i need to do fancy stuff-->
     <input type="submit" class="button" value="Comment">
 </form>
